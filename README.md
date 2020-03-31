@@ -61,3 +61,4 @@ $ terraform apply
 - Roll Back to a previous version (To follow)
 
 ## References
+- https://learn.hashicorp.com/terraform/aws/lambda-api-gateway#allowing-api-gateway-to-access-lambda
