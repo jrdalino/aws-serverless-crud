@@ -62,3 +62,4 @@ $ terraform apply
 
 ## References
 - https://learn.hashicorp.com/terraform/aws/lambda-api-gateway#allowing-api-gateway-to-access-lambda
+- https://medium.com/better-programming/how-to-build-a-serverless-api-with-dynamodb-aws-lambda-and-api-gateway-d61ac63c27dd
