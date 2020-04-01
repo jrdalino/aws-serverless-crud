@@ -5,6 +5,11 @@ import os
 import decimal
 import boto3
 
+from aws_xray_sdk.core import xray_recorder
+from aws_xray_sdk.core import patch_all
+
+patch_all()
+
 # This is a workaround for: http://bugs.python.org/issue16535
 class DecimalEncoder(json.JSONEncoder):
     def default(self, obj):

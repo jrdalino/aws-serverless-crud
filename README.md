@@ -8,6 +8,20 @@ Provision an S3 bucket to store Terraform State and DynamoDB for state-lock
 using https://github.com/jrdalino/aws-tfstate-backend-terraform
 
 ## Usage
+- Install dependencies
+```
+$ cd ~/environment/aws-serverless-crud/src
+$ python3 -m venv venv
+$ source venv/bin/activate
+(venv) $ venv/bin/pip install aws_xray_sdk
+(venv) $ deactivate
+$ cp -a venv/lib/python3.7/site-packages/. create/
+$ cp -a venv/lib/python3.7/site-packages/. read/
+$ cp -a venv/lib/python3.7/site-packages/. update/
+$ cp -a venv/lib/python3.7/site-packages/. delete/
+$ cp -a venv/lib/python3.7/site-packages/. index/
+$ cd ~/environment/aws-serverless-crud
+```
 - Replace variables in terraform.tfvars
 - Replace variables in state_config.tf
 - Initialize, Review Plan and Apply
@@ -21,7 +35,7 @@ $ terraform apply
 - CREATE a Todo
 ```
 $ curl -X POST \
-https://kb5qixynrj.execute-api.ap-southeast-2.amazonaws.com/prod/todos \
+https://fcdpbn6307.execute-api.ap-southeast-2.amazonaws.com/prod/todos \
 -H 'Content-Type: application/json' \
 -d '{ "text": "Learn Serverless" }'
 ```
@@ -29,19 +43,19 @@ https://kb5qixynrj.execute-api.ap-southeast-2.amazonaws.com/prod/todos \
 - Show Todos INDEX
 ```
 $ curl -X GET \
-https://kb5qixynrj.execute-api.ap-southeast-2.amazonaws.com/prod/todos
+https://fcdpbn6307.execute-api.ap-southeast-2.amazonaws.com/prod/todos
 ```
 
 - READ one Todo
 ```
 $ curl -X GET \
-https://kb5qixynrj.execute-api.ap-southeast-2.amazonaws.com/prod/todos/362cc870-73cd-11ea-bb80-e7ecb3e9476b
+https://fcdpbn6307.execute-api.ap-southeast-2.amazonaws.com/prod/todos/2448babb-743a-11ea-8161-39cb9f556761
 ```
 
 - UPDATE a Todo
 ```
 $ curl -X PUT \
-https://kb5qixynrj.execute-api.ap-southeast-2.amazonaws.com/prod/todos/362cc870-73cd-11ea-bb80-e7ecb3e9476b \
+https://fcdpbn6307.execute-api.ap-southeast-2.amazonaws.com/prod/todos/2448babb-743a-11ea-8161-39cb9f556761 \
 -H 'Content-Type: application/json' \
 -d '{ "text": "Learn Serverless", "checked": true }'
 ```
@@ -49,7 +63,7 @@ https://kb5qixynrj.execute-api.ap-southeast-2.amazonaws.com/prod/todos/362cc870-
 - DELETE a Todo
 ```
 $ curl -X DELETE \
-https://kb5qixynrj.execute-api.ap-southeast-2.amazonaws.com/prod/todos/362cc870-73cd-11ea-bb80-e7ecb3e9476b \
+https://fcdpbn6307.execute-api.ap-southeast-2.amazonaws.com/prod/todos/2448babb-743a-11ea-8161-39cb9f556761 \
 -H 'Content-Type: application/json'
 ```
 
@@ -81,5 +95,8 @@ $ terraform apply
 | | |
 
 ## References
-- https://learn.hashicorp.com/terraform/aws/lambda-api-gateway#allowing-api-gateway-to-access-lambda
+- https://learn.hashicorp.com/terraform/aws/lambda-api-gateway
 - https://medium.com/better-programming/how-to-build-a-serverless-api-with-dynamodb-aws-lambda-and-api-gateway-d61ac63c27dd
+- https://www.codementor.io/@jflevesque/serverless-python-profiler-for-aws-lambda-using-aws-x-ray-egx5ze7m2
+- https://medium.com/nordcloud-engineering/tracing-serverless-application-with-aws-x-ray-2b5e1a9e9447
+- https://docs.aws.amazon.com/lambda/latest/dg/python-tracing.html
