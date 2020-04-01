@@ -1,5 +1,8 @@
 # aws-serverless-crud
 
+## Archtiecture Diagram
+![Image description](https://github.com/jrdalino/aws-serverless-crud/blob/master/images/architecture-diagram.png)
+
 ## Usage
 ```
 terraform init
