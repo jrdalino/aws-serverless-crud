@@ -1,6 +1,6 @@
 # aws-serverless-crud
 
-## Archtiecture Diagram
+## Architecture Diagram
 ![Image description](https://github.com/jrdalino/aws-serverless-crud/blob/master/images/architecture-diagram.png)
 
 ## Usage
