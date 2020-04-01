@@ -3,11 +3,18 @@
 ## Architecture Diagram
 ![Image description](https://github.com/jrdalino/aws-serverless-crud/blob/master/images/architecture-diagram.png)
 
+## Prerequisites
+Provision an S3 bucket to store Terraform State and DynamoDB for state-lock
+using https://github.com/jrdalino/aws-tfstate-backend-terraform
+
 ## Usage
+- Replace variables in terraform.tfvars
+- Replace variables in state_config.tf
+- Initialize, Review Plan and Apply
 ```
-terraform init
-terraform plan
-terraform apply
+$ terraform init
+$ terraform plan
+$ terraform apply
 ```
 
 ## Test
@@ -62,6 +69,16 @@ $ terraform plan
 $ terraform apply
 ```
 - Roll Back to a previous version (To follow)
+
+## (TODO) Inputs 
+| Name | Description |
+|------|-------------|
+| | |
+
+## (TODO) Outputs
+| Name | Description |
+|------|-------------|
+| | |
 
 ## References
 - https://learn.hashicorp.com/terraform/aws/lambda-api-gateway#allowing-api-gateway-to-access-lambda
