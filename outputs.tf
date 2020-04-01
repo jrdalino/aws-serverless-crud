@@ -12,31 +12,14 @@ output "aws_lambda_function_create_invoke_arn" {
   value = "${aws_lambda_function.create.invoke_arn}"
 }
 
-# Lambda: Delete
-output "aws_lambda_function_delete_arn" {
-  value = "${aws_lambda_function.delete.arn}"
+
+# Lambda: Read
+output "aws_lambda_function_read_arn" {
+  value = "${aws_lambda_function.read.arn}"
 }
 
-output "aws_lambda_function_delete_invoke_arn" {
-  value = "${aws_lambda_function.delete.invoke_arn}"
-}
-
-# Lambda: Get
-output "aws_lambda_function_get_arn" {
-  value = "${aws_lambda_function.get.arn}"
-}
-
-output "aws_lambda_function_get_invoke_arn" {
-  value = "${aws_lambda_function.get.invoke_arn}"
-}
-
-# Lambda: List
-output "aws_lambda_function_list_arn" {
-  value = "${aws_lambda_function.list.arn}"
-}
-
-output "aws_lambda_function_list_invoke_arn" {
-  value = "${aws_lambda_function.list.invoke_arn}"
+output "aws_lambda_function_read_invoke_arn" {
+  value = "${aws_lambda_function.read.invoke_arn}"
 }
 
 # Lambda: Update
@@ -47,6 +30,26 @@ output "aws_lambda_function_update_arn" {
 output "aws_lambda_function_update_invoke_arn" {
   value = "${aws_lambda_function.update.invoke_arn}"
 }
+
+
+# Lambda: Delete
+output "aws_lambda_function_delete_arn" {
+  value = "${aws_lambda_function.delete.arn}"
+}
+
+output "aws_lambda_function_delete_invoke_arn" {
+  value = "${aws_lambda_function.delete.invoke_arn}"
+}
+
+# Lambda: Index
+output "aws_lambda_function_index_arn" {
+  value = "${aws_lambda_function.index.arn}"
+}
+
+output "aws_lambda_function_index_invoke_arn" {
+  value = "${aws_lambda_function.index.invoke_arn}"
+}
+
 
 # DynamoDB Table
 output "aws_dynamodb_table_arn" {
@@ -96,22 +99,22 @@ output "aws_api_gateway_rest_api_arn" {
 }
 
 # API Gateway Resource
-output "aws_api_gateway_resource_post_get_id" {
-  value       = "${aws_api_gateway_resource.post_get.id}"
+output "aws_api_gateway_resource_create_index_id" {
+  value       = "${aws_api_gateway_resource.create_index.id}"
   description = "The resource's identifier."
 }
 
-output "aws_api_gateway_resource_post_get_path" {
-  value       = "${aws_api_gateway_resource.post_get.path}"
+output "aws_api_gateway_resource_create_index_path" {
+  value       = "${aws_api_gateway_resource.create_index.path}"
   description = "The complete path for this API resource, including all parent paths. "
 }
 
-output "aws_api_gateway_resource_get_put_delete_id" {
-  value       = "${aws_api_gateway_resource.get_put_delete.id}"
+output "aws_api_gateway_resource_read_update_delete_id" {
+  value       = "${aws_api_gateway_resource.read_update_delete.id}"
   description = "The resource's identifier."
 }
 
-output "aws_api_gateway_resource_get_put_delete_path" {
-  value       = "${aws_api_gateway_resource.get_put_delete.path}"
+output "aws_api_gateway_resource_read_update_delete_path" {
+  value       = "${aws_api_gateway_resource.read_update_delete.path}"
   description = "The complete path for this API resource, including all parent paths. "
 }

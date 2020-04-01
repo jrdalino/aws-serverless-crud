@@ -13,23 +13,17 @@ resource "aws_api_gateway_rest_api" "this" {
   # tags
 }
 
-# Resource
-resource "aws_api_gateway_resource" "post_get" {
+# Resource - /todos
+resource "aws_api_gateway_resource" "create_index" {
   rest_api_id = aws_api_gateway_rest_api.this.id
   parent_id   = aws_api_gateway_rest_api.this.root_resource_id
-  path_part   = var.aws_api_gateway_resource_path_part_post_get
+  path_part   = var.aws_api_gateway_resource_path_part_create_index
 }
 
-resource "aws_api_gateway_resource" "get_put_delete" {
-  rest_api_id = aws_api_gateway_rest_api.this.id
-  parent_id   = aws_api_gateway_resource.post_get.id
-  path_part   = var.aws_api_gateway_resource_path_part_get_put_delete
-}
-
-# Method - POST
-resource "aws_api_gateway_method" "post" {
+# Method - Create
+resource "aws_api_gateway_method" "create" {
   rest_api_id   = aws_api_gateway_rest_api.this.id
-  resource_id   = aws_api_gateway_resource.post_get.id
+  resource_id   = aws_api_gateway_resource.create_index.id
   http_method   = "POST"
   authorization = "NONE"
   # authorizer_id
@@ -40,11 +34,11 @@ resource "aws_api_gateway_method" "post" {
   # request_parameters
 }
 
-# Lambda Function Integration - POST
-resource "aws_api_gateway_integration" "lambda_post" {
+# Lambda Function Integration - Create
+resource "aws_api_gateway_integration" "create" {
   rest_api_id = aws_api_gateway_rest_api.this.id
-  resource_id = aws_api_gateway_method.post.resource_id
-  http_method = aws_api_gateway_method.post.http_method
+  resource_id = aws_api_gateway_method.create.resource_id
+  http_method = aws_api_gateway_method.create.http_method
 
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
@@ -61,10 +55,10 @@ resource "aws_api_gateway_integration" "lambda_post" {
   # timeout_milliseconds
 }
 
-# Method - GET (All)
-resource "aws_api_gateway_method" "get_all" {
+# Method - Index
+resource "aws_api_gateway_method" "index" {
   rest_api_id   = aws_api_gateway_rest_api.this.id
-  resource_id   = aws_api_gateway_resource.post_get.id
+  resource_id   = aws_api_gateway_resource.create_index.id
   http_method   = "GET"
   authorization = "NONE"
   # authorizer_id
@@ -75,17 +69,17 @@ resource "aws_api_gateway_method" "get_all" {
   # request_parameters
 }
 
-# Lambda Function Integration - GET (All)
-resource "aws_api_gateway_integration" "lambda_get_all" {
+# Lambda Function Integration - Index
+resource "aws_api_gateway_integration" "index" {
   rest_api_id = aws_api_gateway_rest_api.this.id
-  resource_id = aws_api_gateway_method.get_all.resource_id
-  http_method = aws_api_gateway_method.get_all.http_method
+  resource_id = aws_api_gateway_method.index.resource_id
+  http_method = aws_api_gateway_method.index.http_method
 
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
   # connection_type
   # connection_id
-  uri                     = aws_lambda_function.list.invoke_arn
+  uri                     = aws_lambda_function.index.invoke_arn
   # credentials
   # request_templates
   # request_parameters
@@ -96,10 +90,17 @@ resource "aws_api_gateway_integration" "lambda_get_all" {
   # timeout_milliseconds
 }
 
-# Method - GET (By Id)
-resource "aws_api_gateway_method" "get_by_id" {
+# Resource - /todos/{id}
+resource "aws_api_gateway_resource" "read_update_delete" {
+  rest_api_id = aws_api_gateway_rest_api.this.id
+  parent_id   = aws_api_gateway_resource.create_index.id
+  path_part   = var.aws_api_gateway_resource_path_part_read_update_delete
+}
+
+# Method - Read
+resource "aws_api_gateway_method" "read" {
   rest_api_id   = aws_api_gateway_rest_api.this.id
-  resource_id   = aws_api_gateway_resource.get_put_delete.id
+  resource_id   = aws_api_gateway_resource.read_update_delete.id
   http_method   = "GET"
   authorization = "NONE"
   # authorizer_id
@@ -110,17 +111,17 @@ resource "aws_api_gateway_method" "get_by_id" {
   # request_parameters
 }
 
-# Lambda Function Integration - GET (By Id)
-resource "aws_api_gateway_integration" "lambda_get_by_id" {
+# Lambda Function Integration - Read
+resource "aws_api_gateway_integration" "read" {
   rest_api_id = aws_api_gateway_rest_api.this.id
-  resource_id = aws_api_gateway_method.get_by_id.resource_id
-  http_method = aws_api_gateway_method.get_by_id.http_method
+  resource_id = aws_api_gateway_method.read.resource_id
+  http_method = aws_api_gateway_method.read.http_method
 
   integration_http_method = "POST"
   type                    = "AWS_PROXY"
   # connection_type
   # connection_id
-  uri                     = aws_lambda_function.get.invoke_arn
+  uri                     = aws_lambda_function.read.invoke_arn
   # credentials
   # request_templates
   # request_parameters
@@ -131,10 +132,10 @@ resource "aws_api_gateway_integration" "lambda_get_by_id" {
   # timeout_milliseconds
 }
 
-# Method - PUT
-resource "aws_api_gateway_method" "put" {
+# Method - Update
+resource "aws_api_gateway_method" "update" {
   rest_api_id   = aws_api_gateway_rest_api.this.id
-  resource_id   = aws_api_gateway_resource.get_put_delete.id
+  resource_id   = aws_api_gateway_resource.read_update_delete.id
   http_method   = "PUT"
   authorization = "NONE"
   # authorizer_id
@@ -145,12 +146,31 @@ resource "aws_api_gateway_method" "put" {
   # request_parameters
 }
 
-# TODO: Add Lambda Function Integration for PUT
+# Lambda Function Integration - Update
+resource "aws_api_gateway_integration" "update" {
+  rest_api_id = aws_api_gateway_rest_api.this.id
+  resource_id = aws_api_gateway_method.update.resource_id
+  http_method = aws_api_gateway_method.update.http_method
+
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  # connection_type
+  # connection_id
+  uri                     = aws_lambda_function.update.invoke_arn
+  # credentials
+  # request_templates
+  # request_parameters
+  # passthrough_behavior
+  # cache_key_parameters
+  # cache_namespace
+  # content_handling
+  # timeout_milliseconds
+}
 
 # Method - DELETE
 resource "aws_api_gateway_method" "delete" {
   rest_api_id   = aws_api_gateway_rest_api.this.id
-  resource_id   = aws_api_gateway_resource.get_put_delete.id
+  resource_id   = aws_api_gateway_resource.read_update_delete.id
   http_method   = "DELETE"
   authorization = "NONE"
   # authorizer_id
@@ -161,16 +181,36 @@ resource "aws_api_gateway_method" "delete" {
   # request_parameters
 }
 
-# TODO: Add Lambda Function Integration for DELETE
+# Lambda Function Integration - DELETE
+resource "aws_api_gateway_integration" "delete" {
+  rest_api_id = aws_api_gateway_rest_api.this.id
+  resource_id = aws_api_gateway_method.delete.resource_id
+  http_method = aws_api_gateway_method.delete.http_method
 
-# TODO: Uncomment Deployment
+  integration_http_method = "POST"
+  type                    = "AWS_PROXY"
+  # connection_type
+  # connection_id
+  uri                     = aws_lambda_function.delete.invoke_arn
+  # credentials
+  # request_templates
+  # request_parameters
+  # passthrough_behavior
+  # cache_key_parameters
+  # cache_namespace
+  # content_handling
+  # timeout_milliseconds
+}
+
 # Deployment
-# resource "aws_api_gateway_deployment" "this" {
-#   depends_on = [
-#     aws_api_gateway_integration.lambda,
-#     aws_api_gateway_integration.lambda_root,
-#   ]
-
-#   rest_api_id = aws_api_gateway_rest_api.this.id
-#   stage_name  = "prod"
-# }
+resource "aws_api_gateway_deployment" "this" {
+  depends_on = [
+    aws_api_gateway_integration.create,
+    aws_api_gateway_integration.index,
+    aws_api_gateway_integration.read,
+    aws_api_gateway_integration.update,
+    aws_api_gateway_integration.delete,
+    ]
+  rest_api_id = aws_api_gateway_rest_api.this.id
+  stage_name  = "prod"
+}

@@ -26,26 +26,26 @@ variable "aws_lambda_function_name_create" {
   description = "Lambda Function name."    
 }
 
-# Lambda: Delete
-variable "aws_lambda_function_name_delete" {
-  type        = string
-  description = "Lambda Function name."    
-}
-
-# Lambda: Get
-variable "aws_lambda_function_name_get" {
-  type        = string
-  description = "Lambda Function name."    
-}
-
-# Lambda: List
-variable "aws_lambda_function_name_list" {
+# Lambda: Read
+variable "aws_lambda_function_name_read" {
   type        = string
   description = "Lambda Function name."    
 }
 
 # Lambda: Update
 variable "aws_lambda_function_name_update" {
+  type        = string
+  description = "Lambda Function name."    
+}
+
+# Lambda: Delete
+variable "aws_lambda_function_name_delete" {
+  type        = string
+  description = "Lambda Function name."    
+}
+
+# Lambda: Index
+variable "aws_lambda_function_name_index" {
   type        = string
   description = "Lambda Function name."    
 }
@@ -83,12 +83,12 @@ variable "aws_api_gateway_rest_api_description" {
 }
 
 # API Gateway Resource
-variable "aws_api_gateway_resource_path_part_post_get" {
+variable "aws_api_gateway_resource_path_part_create_index" {
   type        = string
   description = "The last path segment of this API resource."    
 }
 
-variable "aws_api_gateway_resource_path_part_get_put_delete" {
+variable "aws_api_gateway_resource_path_part_read_update_delete" {
   type        = string
   description = "The last path segment of this API resource."    
 }

@@ -8,10 +8,10 @@ lambda_service_role_policy_name = "aws-serverless-crud-lambda-service-role-polic
 
 # Lambda
 aws_lambda_function_name_create = "aws-serverless-crud-create"
-aws_lambda_function_name_delete = "aws-serverless-crud-delete"
-aws_lambda_function_name_get    = "aws-serverless-crud-get"
-aws_lambda_function_name_list   = "aws-serverless-crud-list"
+aws_lambda_function_name_read   = "aws-serverless-crud-read"
 aws_lambda_function_name_update = "aws-serverless-crud-update"
+aws_lambda_function_name_delete = "aws-serverless-crud-delete"
+aws_lambda_function_name_index   = "aws-serverless-crud-index"
 
 # DynamoDB Table
 aws_dynamodb_table_name           = "todos"
@@ -24,5 +24,5 @@ aws_api_gateway_rest_api_name        = "todo-api"
 aws_api_gateway_rest_api_description = "API for Todos"
 
 # API Gateway Resource
-aws_api_gateway_resource_path_part_post_get       = "todos"
-aws_api_gateway_resource_path_part_get_put_delete = "{id}"
+aws_api_gateway_resource_path_part_create_index       = "todos"
+aws_api_gateway_resource_path_part_read_update_delete = "{id}"

@@ -8,38 +8,38 @@ terraform apply
 ```
 
 ## Test
-- Create a Todo
+- CREATE a Todo
 ```
 $ curl -X POST \
-https://eqao6wcrck.execute-api.ap-southeast-2.amazonaws.com/prod/todos \
+https://wih9odsh9c.execute-api.ap-southeast-2.amazonaws.com/prod/todos \
 -H 'Content-Type: application/json' \
 -d '{ "text": "Learn Serverless" }'
 ```
 
-- List all Todos
+- Show Todos INDEX
 ```
 $ curl -X GET \
-https://eqao6wcrck.execute-api.ap-southeast-2.amazonaws.com/prod/todos
+https://wih9odsh9c.execute-api.ap-southeast-2.amazonaws.com/prod/todos
 ```
 
-- Get one Todo
+- READ one Todo
 ```
 $ curl -X GET \
-https://eqao6wcrck.execute-api.ap-southeast-2.amazonaws.com/prod/todos/d1831873-71df-11ea-87bd-7557fc10d6dd
+https://wih9odsh9c.execute-api.ap-southeast-2.amazonaws.com/prod/todos/6ca396b2-73c4-11ea-b8b4-61b15f1e4b3b
 ```
 
-- Update a Todo
+- UPDATE a Todo
 ```
 $ curl -X PUT \
-https://eqao6wcrck.execute-api.ap-southeast-2.amazonaws.com/prod/todos/d1831873-71df-11ea-87bd-7557fc10d6dd \
+https://wih9odsh9c.execute-api.ap-southeast-2.amazonaws.com/prod/todos/6ca396b2-73c4-11ea-b8b4-61b15f1e4b3b \
 -H 'Content-Type: application/json' \
--d '{ "text": "Learn Scala", "checked": true }'
+-d '{ "text": "Learn Serverless", "checked": true }'
 ```
 
-- Delete a Todo
+- DELETE a Todo
 ```
 $ curl -X DELETE \
-https://eqao6wcrck.execute-api.ap-southeast-2.amazonaws.com/prod/todos/d1831873-71df-11ea-87bd-7557fc10d6dd \
+https://wih9odsh9c.execute-api.ap-southeast-2.amazonaws.com/prod/todos/6ca396b2-73c4-11ea-b8b4-61b15f1e4b3b \
 -H 'Content-Type: application/json'
 ```
 

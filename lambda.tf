@@ -70,7 +70,7 @@ resource "aws_iam_role_policy_attachment" "lambda_logs" {
 }
 
 # Lambda API Gateway Permissions
-resource "aws_lambda_permission" "apigw_post" {
+resource "aws_lambda_permission" "create" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
   function_name = aws_lambda_function.create.function_name
@@ -81,10 +81,10 @@ resource "aws_lambda_permission" "apigw_post" {
   source_arn = "${aws_api_gateway_rest_api.this.execution_arn}/*/*"
 }
 
-resource "aws_lambda_permission" "apigw_get_all" {
+resource "aws_lambda_permission" "read" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.list.function_name
+  function_name = aws_lambda_function.read.function_name
   principal     = "apigateway.amazonaws.com"
 
   # The "/*/*" portion grants access from any method on any resource
@@ -92,10 +92,10 @@ resource "aws_lambda_permission" "apigw_get_all" {
   source_arn = "${aws_api_gateway_rest_api.this.execution_arn}/*/*"
 }
 
-resource "aws_lambda_permission" "apigw_get_by_id" {
+resource "aws_lambda_permission" "update" {
   statement_id  = "AllowAPIGatewayInvoke"
   action        = "lambda:InvokeFunction"
-  function_name = aws_lambda_function.get.function_name
+  function_name = aws_lambda_function.update.function_name
   principal     = "apigateway.amazonaws.com"
 
   # The "/*/*" portion grants access from any method on any resource
@@ -103,7 +103,27 @@ resource "aws_lambda_permission" "apigw_get_by_id" {
   source_arn = "${aws_api_gateway_rest_api.this.execution_arn}/*/*"
 }
 
-# TODO: Add Lambda API Gateway Permissions for Put and Delete
+resource "aws_lambda_permission" "delete" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.delete.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  # The "/*/*" portion grants access from any method on any resource
+  # within the API Gateway REST API.
+  source_arn = "${aws_api_gateway_rest_api.this.execution_arn}/*/*"
+}
+
+resource "aws_lambda_permission" "index" {
+  statement_id  = "AllowAPIGatewayInvoke"
+  action        = "lambda:InvokeFunction"
+  function_name = aws_lambda_function.index.function_name
+  principal     = "apigateway.amazonaws.com"
+
+  # The "/*/*" portion grants access from any method on any resource
+  # within the API Gateway REST API.
+  source_arn = "${aws_api_gateway_rest_api.this.execution_arn}/*/*"
+}
 
 # Archive
 data "archive_file" "create" {
@@ -112,28 +132,28 @@ data "archive_file" "create" {
   output_path = "build/create.zip"
 }
 
-data "archive_file" "delete" {
+data "archive_file" "read" {
   type        = "zip"
-  source_dir  = "src/delete"
-  output_path = "build/delete.zip"
-}
-
-data "archive_file" "get" {
-  type        = "zip"
-  source_dir  = "src/get"
-  output_path = "build/get.zip"
-}
-
-data "archive_file" "list" {
-  type        = "zip"
-  source_dir  = "src/list"
-  output_path = "build/list.zip"
+  source_dir  = "src/read"
+  output_path = "build/read.zip"
 }
 
 data "archive_file" "update" {
   type        = "zip"
   source_dir  = "src/update"
   output_path = "build/update.zip"
+}
+
+data "archive_file" "delete" {
+  type        = "zip"
+  source_dir  = "src/delete"
+  output_path = "build/delete.zip"
+}
+
+data "archive_file" "index" {
+  type        = "zip"
+  source_dir  = "src/index"
+  output_path = "build/index.zip"
 }
 
 # Lambda Function
@@ -153,46 +173,14 @@ resource "aws_lambda_function" "create" {
   }
 }
 
-resource "aws_lambda_function" "delete" {
-  function_name    = "${var.aws_lambda_function_name_delete}"
+resource "aws_lambda_function" "read" {
+  function_name    = "${var.aws_lambda_function_name_read}"
 
-  filename         = "${data.archive_file.delete.output_path}"
-  source_code_hash = "${data.archive_file.delete.output_base64sha256}" 
-
-  role             = "${aws_iam_role.lambda_service_role.arn}"
-  handler          = "delete.lambda_handler"
-  runtime          = "python3.8"
-  timeout          = "3"
-
-  tracing_config {
-    mode = "Active"
-  }
-}
-
-resource "aws_lambda_function" "get" {
-  function_name    = "${var.aws_lambda_function_name_get}"
-
-  filename         = "${data.archive_file.get.output_path}"
-  source_code_hash = "${data.archive_file.get.output_base64sha256}" 
+  filename         = "${data.archive_file.read.output_path}"
+  source_code_hash = "${data.archive_file.read.output_base64sha256}" 
 
   role             = "${aws_iam_role.lambda_service_role.arn}"
-  handler          = "get.lambda_handler"
-  runtime          = "python3.8"
-  timeout          = "3"
-
-  tracing_config {
-    mode = "Active"
-  }
-}
-
-resource "aws_lambda_function" "list" {
-  function_name    = "${var.aws_lambda_function_name_list}"
-
-  filename         = "${data.archive_file.list.output_path}"
-  source_code_hash = "${data.archive_file.list.output_base64sha256}" 
-
-  role             = "${aws_iam_role.lambda_service_role.arn}"
-  handler          = "list.lambda_handler"
+  handler          = "read.lambda_handler"
   runtime          = "python3.8"
   timeout          = "3"
 
@@ -217,9 +205,51 @@ resource "aws_lambda_function" "update" {
   }
 }
 
+resource "aws_lambda_function" "delete" {
+  function_name    = "${var.aws_lambda_function_name_delete}"
+
+  filename         = "${data.archive_file.delete.output_path}"
+  source_code_hash = "${data.archive_file.delete.output_base64sha256}" 
+
+  role             = "${aws_iam_role.lambda_service_role.arn}"
+  handler          = "delete.lambda_handler"
+  runtime          = "python3.8"
+  timeout          = "3"
+
+  tracing_config {
+    mode = "Active"
+  }
+}
+
+resource "aws_lambda_function" "index" {
+  function_name    = "${var.aws_lambda_function_name_index}"
+
+  filename         = "${data.archive_file.index.output_path}"
+  source_code_hash = "${data.archive_file.index.output_base64sha256}" 
+
+  role             = "${aws_iam_role.lambda_service_role.arn}"
+  handler          = "index.lambda_handler"
+  runtime          = "python3.8"
+  timeout          = "3"
+
+  tracing_config {
+    mode = "Active"
+  }
+}
+
 # CloudWatch Logs
 resource "aws_cloudwatch_log_group" "create" {
   name              = "/aws/lambda/${var.aws_lambda_function_name_create}"
+  retention_in_days = 14
+}
+
+resource "aws_cloudwatch_log_group" "read" {
+  name              = "/aws/lambda/${var.aws_lambda_function_name_read}"
+  retention_in_days = 14
+}
+
+resource "aws_cloudwatch_log_group" "update" {
+  name              = "/aws/lambda/${var.aws_lambda_function_name_update}"
   retention_in_days = 14
 }
 
@@ -228,17 +258,7 @@ resource "aws_cloudwatch_log_group" "delete" {
   retention_in_days = 14
 }
 
-resource "aws_cloudwatch_log_group" "get" {
-  name              = "/aws/lambda/${var.aws_lambda_function_name_get}"
-  retention_in_days = 14
-}
-
-resource "aws_cloudwatch_log_group" "list" {
-  name              = "/aws/lambda/${var.aws_lambda_function_name_list}"
-  retention_in_days = 14
-}
-
-resource "aws_cloudwatch_log_group" "update" {
-  name              = "/aws/lambda/${var.aws_lambda_function_name_update}"
+resource "aws_cloudwatch_log_group" "index" {
+  name              = "/aws/lambda/${var.aws_lambda_function_name_index}"
   retention_in_days = 14
 }
