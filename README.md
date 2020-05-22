@@ -31,11 +31,13 @@ $ terraform plan
 $ terraform apply
 ```
 
+https://b8duqglcoi.execute-api.ap-southeast-1.amazonaws.com/prod/todos
+
 ## Test
 - CREATE a Todo
 ```
 $ curl -X POST \
-https://dwgwjtu6be.execute-api.ap-southeast-2.amazonaws.com/prod/todos \
+https://b8duqglcoi.execute-api.ap-southeast-1.amazonaws.com/prod/todos \
 -H 'Content-Type: application/json' \
 -d '{ "text": "Learn Tensorflow" }'
 ```
@@ -43,19 +45,19 @@ https://dwgwjtu6be.execute-api.ap-southeast-2.amazonaws.com/prod/todos \
 - Show Todos INDEX
 ```
 $ curl -X GET \
-https://dwgwjtu6be.execute-api.ap-southeast-2.amazonaws.com/prod/todos
+https://b8duqglcoi.execute-api.ap-southeast-1.amazonaws.com/prod/todos
 ```
 
 - READ one Todo
 ```
 $ curl -X GET \
-https://dwgwjtu6be.execute-api.ap-southeast-2.amazonaws.com/prod/todos/1ea0a89c-75aa-11ea-b2d4-190d683eebf6
+https://b8duqglcoi.execute-api.ap-southeast-1.amazonaws.com/prod/todos/1ea0a89c-75aa-11ea-b2d4-190d683eebf6
 ```
 
 - UPDATE a Todo
 ```
 $ curl -X PUT \
-https://dwgwjtu6be.execute-api.ap-southeast-2.amazonaws.com/prod/todos/1ea0a89c-75aa-11ea-b2d4-190d683eebf6 \
+https://b8duqglcoi.execute-api.ap-southeast-1.amazonaws.com/prod/todos/1ea0a89c-75aa-11ea-b2d4-190d683eebf6 \
 -H 'Content-Type: application/json' \
 -d '{ "text": "Learn Serverless", "checked": true }'
 ```
@@ -63,7 +65,7 @@ https://dwgwjtu6be.execute-api.ap-southeast-2.amazonaws.com/prod/todos/1ea0a89c-
 - DELETE a Todo
 ```
 $ curl -X DELETE \
-https://dwgwjtu6be.execute-api.ap-southeast-2.amazonaws.com/prod/todos/1ea0a89c-75aa-11ea-b2d4-190d683eebf6 \
+https://b8duqglcoi.execute-api.ap-southeast-1.amazonaws.com/prod/todos/1ea0a89c-75aa-11ea-b2d4-190d683eebf6 \
 -H 'Content-Type: application/json'
 ```
 
